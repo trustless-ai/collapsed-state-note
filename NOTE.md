@@ -168,3 +168,58 @@ which writes invariants down, agrees them, and cites them by name still reintrod
 times in two days — and only stopped when something mechanical was watching.
 
 Write the rule. Then build the thing that can fail.
+
+## 10 · The same shape, one layer up (17–18 August)
+
+Two days after this note closed, the pattern arrived again — not in a marker on a value, but in a
+verdict on a check. Recorded here because it is the same rule at a higher layer, and because it
+arrived twice more independently, which is this note's own kind of evidence.
+
+A verdict is a value too. **A green that does not carry a bound witness of the procedure that
+produced it collapses with a mere assertion of the same green.** "The check passed" and "I said the
+check passed" are byte-identical unless something binds the computation that witnessed it into the
+result — exactly as *authorized* and *authorized-for-the-key-that-was-rotated-out* were
+byte-identical until the epoch travelled with the message (§4).
+
+Two instances, from two threads, one invariant:
+
+- **A run record** — recompute-kit `predicate_conformance.v0` (PR #14). A commit's position in the
+  DAG proves a record existed no later than X; it cannot prove *this execution consumed that input.*
+  So the record splits: `record_identity` (weaker — precommit before the recorded result) versus
+  `execution_witness` (an attestation binding executed revision + consumed hash + result). Only the
+  second lets a green mean "produced by this check."
+- **A verification result** — observation-conditions-note §9, a candidate kept *named, not counted.*
+  An agent applying this group's own recompute discipline stated a spec's hashes matched *without
+  recomputing them* — the canonical bytes differed — and it was caught only when the recompute was
+  re-run. Pavlo's boundary is the sharp one: a hash/diff produced *after* an assertion proves a
+  *later* recompute occurred, not how the *original* green was made. The close is the same fix as
+  the run record's: bind the witnessing computation — the recomputed digest, the mutation result —
+  into the verdict.
+
+Same fix, two objects: **bind the witness into the result, or it inherits provenance it did not
+earn.** An independent convergence — Fede reached it from the DAG side, the §9 candidate from the
+agent-drift side — not a coincidence of vocabulary.
+
+**External corroboration, from the testing-discipline side.** Robert C. Martin's
+*negative-test-experiment* wrote Hunt the Wumpus eight times — four disciplines × a forced
+complexity metric on/off — producing eight distinct source trees, no shared checksum, and **every
+one passes acceptance 25/0.** *"Acceptance does not distinguish the four."* He rates design by
+reading the trees, *"not mutation, not acceptance"*: the verdict carries no trace of the discipline
+or the design that produced it, reached empirically and independently. Two of his measurements
+sharpen this note's own instruments:
+
+- **Mutation-kill is a floor, not a ranking.** All eight programs killed ~95–100% of mutants — the
+  layered design and the single-file listing alike. A green mutation suite means "this check is not
+  decorative," never "this is good."
+- **A forced metric goes decorative** — a counter-case, kept separate. Forcing the complexity metric
+  below its threshold *"multiplies names… CC ≤ 3 is visible; the hunt is not"*: coverage up, design
+  flat. A control optimised *for* becomes a target that satisfies the letter — §7's "the check was
+  wrong too," seen from the metric side.
+
+The narrow, reads-only form of this stays in observation-conditions-note, deliberately (that note's
+scope call). What belongs here is the general shape only: **a result must carry a bound witness of
+the procedure that produced it.** Write the rule, then build the thing that can fail — and make the
+green able to say it really ran.
+
+*Found and first-drafted by Merlini (the citation, and the two-instance mapping); Pavlo sharpened
+the §9 boundary and the run-record split. By offer — additions welcome.*
