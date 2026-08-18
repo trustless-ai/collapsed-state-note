@@ -183,11 +183,13 @@ byte-identical until the epoch travelled with the message (§4).
 
 Two instances, from two threads, one invariant:
 
-- **A run record** — recompute-kit `predicate_conformance.v0` (PR #14). A commit's position in the
-  DAG proves a record existed no later than X; it cannot prove *this execution consumed that input.*
-  So the record splits: `record_identity` (weaker — precommit before the recorded result) versus
-  `execution_witness` (an attestation binding executed revision + consumed hash + result). Only the
-  second lets a green mean "produced by this check."
+- **A run record** — recompute-kit `predicate_conformance.v0` (PR #14, as design/spec). A commit's
+  position in the DAG proves a record existed no later than X; it cannot prove *this execution
+  consumed that input.* So the spec splits the claim: `record_identity` (weaker — precommit before
+  the recorded result, and the leg the gate actually implements) versus `execution_witness` (an
+  attestation binding executed revision + consumed hash + result). Only the second lets a green mean
+  "produced by this check" — and it is deliberately **out of scope in PR #14** until a real repo/CI
+  witness surface exists. The design names the boundary; the witness leg is specified, not yet built.
 - **A verification result** — observation-conditions-note §9, a candidate kept *named, not counted.*
   An agent applying this group's own recompute discipline stated a spec's hashes matched *without
   recomputing them* — the canonical bytes differed — and it was caught only when the recompute was
@@ -208,9 +210,9 @@ reading the trees, *"not mutation, not acceptance"*: the verdict carries no trac
 or the design that produced it, reached empirically and independently. Two of his measurements
 sharpen this note's own instruments:
 
-- **Mutation-kill is a floor, not a ranking.** All eight programs killed ~95–100% of mutants — the
-  layered design and the single-file listing alike. A green mutation suite means "this check is not
-  decorative," never "this is good."
+- **Mutation-kill is a floor, not a ranking.** All eight programs killed ~94.5–99.2% of *covered*
+  mutants (the experiment records uncovered sites separately) — the layered design and the single-file
+  listing alike. A green mutation suite means "this check is not decorative," never "this is good."
 - **A forced metric goes decorative** — a counter-case, kept separate. Forcing the complexity metric
   below its threshold *"multiplies names… CC ≤ 3 is visible; the hunt is not"*: coverage up, design
   flat. A control optimised *for* becomes a target that satisfies the letter — §7's "the check was
