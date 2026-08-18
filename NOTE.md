@@ -225,3 +225,35 @@ green able to say it really ran.
 
 *Found and first-drafted by Merlini (the citation, and the two-instance mapping); Pavlo sharpened
 the §9 boundary and the run-record split. By offer — additions welcome.*
+
+## 11 · The two-axis test for a load-bearing check (18 August)
+
+§10 says a result must carry a bound witness of the procedure that produced it. The obvious
+corollary — *prove the check can fail* — turned out to carry **two independent obligations**, and a
+suite can satisfy one while silently failing the other. Both were caught the same week, one in each
+of us:
+
+- **Axis 1 — WHERE you run it.** recompute-kit PR #14's conformance suite ran `bun gate.ts --grade`,
+  which printed results and exited 0 *unconditionally*; a validating path existed in the same file,
+  but CI never called it. Every vector "passed" by construction — an evaluator returning wrong
+  results but well-formed JSON stayed green forever. Right injection point, wrong entrypoint watched.
+- **Axis 2 — WHERE you inject the fault.** A first attempt to show a checker could fail forced its
+  comparison function to always return `true` — which proves only that the comparator *ran*,
+  trivially true of any comparison-based check. The real test injects a claim-relevant semantic fault
+  into the *domain logic that produces the answer* (flip one `!=` in the thing under test), leaves the
+  comparison intact, and requires the pinned expected to go red. Right entrypoint, wrong injection
+  layer.
+
+**The rule, as the working group fixed it:** *A check is load-bearing on a claim only when a
+claim-relevant semantic fault, injected upstream in the claim-producing logic, is carried through to
+a red outcome by the exact command CI actually invokes. Passing either axis alone — the right
+entrypoint with a plumbing-only injection, or the right injection point verified through a sibling CI
+never calls — is insufficient.*
+
+It closes the gap between "this checker can fail" and "the deployed verification path can detect this
+class of wrong answer." A green that clears only one axis is the decoration §1 named, wearing a
+mutation test as cover.
+
+*Formulated with Fede (babyblueviper1) and Pavlo (pipavlo82) on the working-group thread,
+18 August; Pavlo's "claim-relevant" scoping keeps the obligation to exactly what the check claims to
+verify. The two instances above are ours — one miss each.*
